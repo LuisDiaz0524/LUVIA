@@ -32,7 +32,7 @@ const App = () => {
 
   // Datos de Antes/Después
   const transformations = [
-    { area: "Dormitorio", before: "/images/dormitorio-antes.jpeg", after: "/images/dormitorio-despues.jpeg" },
+    { area: "Dormitorio", before: "images/dormitorio-antes.jpeg", after: "/images/dormitorio-despues.jpeg" },
     { area: "Sala", before: "/images/sala-antes.jpeg", after: "/images/sala-despues.jpeg" },
     { area: "Baño", before: "/images/baño-antes.jpeg", after: "/images/baño-despues.jpeg" },
     { area: "Cocina", before: "/images/cocina-antes.jpeg", after: "/images/cocina-despues.jpeg" },
