@@ -8,6 +8,9 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// --- IMPORTACIÓN DIRECTA DEL LOGO (MÉTODO INFALIBLE) ---
+import logoLuvia from './assets/logo.png'; 
+
 // --- CONFIGURACIÓN DE COLORES Y ESTILOS ---
 const GOLD_GRADIENT = "bg-gradient-to-r from-[#D4AF37] via-[#FFD700] to-[#D4AF37]";
 const GOLD_TEXT = "bg-clip-text text-transparent bg-gradient-to-r from-[#D4AF37] via-[#FFD700] to-[#D4AF37]";
@@ -32,7 +35,9 @@ const App = () => {
     { icon: <Award />, title: "Honestos", desc: "Transparencia total." },
   ];
 
-  // Datos de Antes/Después (Rutas corregidas apuntando a la carpeta images)
+  // Datos de Antes/Después
+  // Nota: Estas se quedan en 'public' porque son rutas de texto, no imports.
+  // Asegúrate de que en 'public/images' sigan existiendo estas fotos.
   const transformations = [
     { area: "Dormitorio", before: "images/dormitorio-antes.jpeg", after: "images/dormitorio-despues.jpeg" },
     { area: "Sala", before: "images/sala-antes.jpeg", after: "images/sala-despues.jpeg" },
@@ -79,11 +84,11 @@ const App = () => {
       <nav className="fixed w-full z-50 bg-black/90 backdrop-blur-md border-b border-[#D4AF37]/20">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           
-          {/* LOGO (Ruta corregida: images/logo.png) */}
+          {/* LOGO CON IMPORTACIÓN SEGURA */}
           <div className="w-20 h-20 relative cursor-pointer group">
             <div className="absolute inset-0 bg-[#D4AF37] blur-2xl opacity-10 group-hover:opacity-30 transition-opacity rounded-full"></div>
             <img 
-              src="images/logo.png" 
+              src={logoLuvia}   // <--- AQUÍ USAMOS LA VARIABLE IMPORTADA
               alt="LUVIA Logo" 
               className="relative z-10 w-full h-full object-contain"
             />
@@ -126,7 +131,6 @@ const App = () => {
               <span className={GOLD_TEXT}>cada detalle.</span>
             </h1>
             
-            {/* TU FRASE PERSONALIZADA */}
             <p className="text-gray-300 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto italic">
               Pureza y luminosidad ✨
             </p>
@@ -260,12 +264,11 @@ const App = () => {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col items-center md:items-start">
              
-             {/* LOGO FOOTER (Ruta corregida) */}
+             {/* LOGO FOOTER (Usa variable importada) */}
              <div className="w-24 mb-4 opacity-80 hover:opacity-100 transition-opacity">
-                <img src="images/logo.png" alt="Luvia Logo" className="w-full h-full object-contain" />
+                <img src={logoLuvia} alt="Luvia Logo" className="w-full h-full object-contain" />
              </div>
              
-             {/* TU FRASE EN EL FOOTER */}
              <p className="text-gray-500 text-sm max-w-xs text-center md:text-left italic">
                Pureza y luminosidad ✨
              </p>
