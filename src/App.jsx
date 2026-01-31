@@ -8,10 +8,11 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// --- IMPORTACIÓN DIRECTA DEL LOGO (MÉTODO INFALIBLE) ---
+// --- IMPORTACIÓN DEL LOGO ---
+// Asegúrate de que el archivo esté en: src/assets/logo.png
 import logoLuvia from './assets/logo.png'; 
 
-// --- CONFIGURACIÓN DE COLORES Y ESTILOS ---
+// --- COLORES ---
 const GOLD_GRADIENT = "bg-gradient-to-r from-[#D4AF37] via-[#FFD700] to-[#D4AF37]";
 const GOLD_TEXT = "bg-clip-text text-transparent bg-gradient-to-r from-[#D4AF37] via-[#FFD700] to-[#D4AF37]";
 
@@ -36,8 +37,6 @@ const App = () => {
   ];
 
   // Datos de Antes/Después
-  // Nota: Estas se quedan en 'public' porque son rutas de texto, no imports.
-  // Asegúrate de que en 'public/images' sigan existiendo estas fotos.
   const transformations = [
     { area: "Dormitorio", before: "images/dormitorio-antes.jpeg", after: "images/dormitorio-despues.jpeg" },
     { area: "Sala", before: "images/sala-antes.jpeg", after: "images/sala-despues.jpeg" },
@@ -45,7 +44,7 @@ const App = () => {
     { area: "Cocina", before: "images/cocina-antes.jpeg", after: "images/cocina-despues.jpeg" },
   ];
 
-  // Datos de Testimonios (CARRUSEL)
+  // Datos de Testimonios
   const testimonials = [
     {
       text: "Finalmente un servicio en el que puedo confiar las llaves de mi casa. La atención al detalle de Luvia es simplemente incomparable.",
@@ -69,7 +68,7 @@ const App = () => {
     }
   ];
 
-  // Efecto para cambiar el testimonio automáticamente
+  // Cambio automático de testimonios
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
@@ -84,17 +83,17 @@ const App = () => {
       <nav className="fixed w-full z-50 bg-black/90 backdrop-blur-md border-b border-[#D4AF37]/20">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           
-          {/* LOGO CON IMPORTACIÓN SEGURA */}
+          {/* LOGO */}
           <div className="w-20 h-20 relative cursor-pointer group">
             <div className="absolute inset-0 bg-[#D4AF37] blur-2xl opacity-10 group-hover:opacity-30 transition-opacity rounded-full"></div>
             <img 
-              src={logoLuvia}   // <--- AQUÍ USAMOS LA VARIABLE IMPORTADA
+              src={logoLuvia} 
               alt="LUVIA Logo" 
               className="relative z-10 w-full h-full object-contain"
             />
           </div>
           
-          {/* Desktop Menu */}
+          {/* Menu Desktop */}
           <div className="hidden md:flex gap-8 text-sm tracking-widest uppercase text-gray-300 items-center">
             <a href="#inicio" className="hover:text-[#D4AF37] transition-colors">Inicio</a>
             <a href="#valores" className="hover:text-[#D4AF37] transition-colors">Valores</a>
@@ -104,20 +103,20 @@ const App = () => {
             </button>
           </div>
 
-          {/* Mobile Menu Toggle */}
+          {/* Menu Mobile Toggle */}
           <button className="md:hidden text-[#D4AF37]" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X /> : <Menu />}
           </button>
         </div>
       </nav>
 
-      {/* --- HERO SECTION --- */}
+      {/* --- HERO SECTION (CENTRO PERFECTO) --- */}
       <section id="inicio" className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-zinc-900">
              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-800 via-black to-black opacity-90"></div>
         </div>
         
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto mt-20">
+        <div className="relative z-10 text-center px-6 mx-auto">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -131,7 +130,8 @@ const App = () => {
               <span className={GOLD_TEXT}>cada detalle.</span>
             </h1>
             
-            <p className="text-gray-300 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto italic">
+            {/* Texto centrado sin restricciones de ancho innecesarias */}
+            <p className="text-gray-300 text-lg md:text-xl font-light mb-10 italic">
               Pureza y luminosidad ✨
             </p>
 
@@ -186,19 +186,19 @@ const App = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {transformations.map((item, index) => (
               <div key={index} className="relative group rounded-2xl overflow-hidden border border-white/10 h-[400px]">
-                {/* Imagen del ANTES */}
+                {/* ANTES */}
                 <div className="absolute inset-0">
                   <img src={item.before} alt={`${item.area} Antes`} className="w-full h-full object-cover grayscale opacity-60" />
                   <div className="absolute top-4 left-4 bg-black/70 text-white text-xs px-3 py-1 rounded border border-white/20">ANTES</div>
                 </div>
 
-                {/* Imagen del DESPUÉS */}
+                {/* DESPUÉS */}
                 <div className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out">
                   <img src={item.after} alt={`${item.area} Después`} className="w-full h-full object-cover" />
                   <div className="absolute top-4 right-4 bg-[#D4AF37] text-black font-bold text-xs px-3 py-1 rounded shadow-lg">DESPUÉS</div>
                 </div>
                 
-                {/* Etiqueta del Área */}
+                {/* Etiqueta */}
                 <div className="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-black to-transparent pointer-events-none">
                   <h4 className={`text-2xl font-serif ${GOLD_TEXT}`}>{item.area}</h4>
                 </div>
@@ -222,7 +222,7 @@ const App = () => {
             {[1,2,3,4,5].map(i => <Star key={i} fill="#D4AF37" size={20} />)}
           </div>
           
-          {/* Área Animada del Texto */}
+          {/* Texto Animado */}
           <div className="h-64 md:h-48 flex items-center justify-center">
             <AnimatePresence mode='wait'>
               <motion.div
@@ -244,7 +244,7 @@ const App = () => {
             </AnimatePresence>
           </div>
 
-          {/* Puntitos de Navegación */}
+          {/* Puntitos */}
           <div className="flex justify-center gap-3 mt-8">
             {testimonials.map((_, index) => (
               <button 
@@ -264,7 +264,7 @@ const App = () => {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col items-center md:items-start">
              
-             {/* LOGO FOOTER (Usa variable importada) */}
+             {/* Logo Footer */}
              <div className="w-24 mb-4 opacity-80 hover:opacity-100 transition-opacity">
                 <img src={logoLuvia} alt="Luvia Logo" className="w-full h-full object-contain" />
              </div>
