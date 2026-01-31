@@ -4,7 +4,7 @@ import {
   Award, Briefcase, Zap, Search, 
   UserCheck, GraduationCap, Gavel, Heart,
   Menu, X, Phone, Instagram, Facebook,
-  Quote // Importamos el icono de comillas
+  Quote 
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -14,7 +14,7 @@ const GOLD_TEXT = "bg-clip-text text-transparent bg-gradient-to-r from-[#D4AF37]
 
 const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [currentTestimonial, setCurrentTestimonial] = useState(0); // Estado para el carrusel
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
   // Datos de Valores
   const values = [
@@ -32,7 +32,7 @@ const App = () => {
     { icon: <Award />, title: "Honestos", desc: "Transparencia total." },
   ];
 
-  // Datos de Antes/Después (Rutas relativas corregidas)
+  // Datos de Antes/Después (Rutas corregidas apuntando a la carpeta images)
   const transformations = [
     { area: "Dormitorio", before: "images/dormitorio-antes.jpeg", after: "images/dormitorio-despues.jpeg" },
     { area: "Sala", before: "images/sala-antes.jpeg", after: "images/sala-despues.jpeg" },
@@ -64,7 +64,7 @@ const App = () => {
     }
   ];
 
-  // Efecto para cambiar el testimonio automáticamente cada 5 segundos
+  // Efecto para cambiar el testimonio automáticamente
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
@@ -79,7 +79,7 @@ const App = () => {
       <nav className="fixed w-full z-50 bg-black/90 backdrop-blur-md border-b border-[#D4AF37]/20">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           
-          {/* LOGO PNG */}
+          {/* LOGO (Ruta corregida: images/logo.png) */}
           <div className="w-20 h-20 relative cursor-pointer group">
             <div className="absolute inset-0 bg-[#D4AF37] blur-2xl opacity-10 group-hover:opacity-30 transition-opacity rounded-full"></div>
             <img 
@@ -125,10 +125,12 @@ const App = () => {
               <span className="block text-white">Perfección en</span>
               <span className={GOLD_TEXT}>cada detalle.</span>
             </h1>
+            
             {/* TU FRASE PERSONALIZADA */}
             <p className="text-gray-300 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto italic">
               Pureza y luminosidad ✨
             </p>
+
             <motion.button 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -202,7 +204,7 @@ const App = () => {
         </div>
       </section>
 
-      {/* --- TESTIMONIOS (CARRUSEL AUTOMÁTICO) --- */}
+      {/* --- TESTIMONIOS (CARRUSEL) --- */}
       <section className="py-24 px-6 bg-zinc-900 border-y border-[#D4AF37]/10 relative overflow-hidden">
         <div className="max-w-4xl mx-auto text-center relative z-10">
           
@@ -257,10 +259,13 @@ const App = () => {
       <footer className="bg-black py-16 px-6 border-t border-white/5">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col items-center md:items-start">
+             
+             {/* LOGO FOOTER (Ruta corregida) */}
              <div className="w-24 mb-4 opacity-80 hover:opacity-100 transition-opacity">
                 <img src="images/logo.png" alt="Luvia Logo" className="w-full h-full object-contain" />
              </div>
-             {/* TU FRASE PERSONALIZADA */}
+             
+             {/* TU FRASE EN EL FOOTER */}
              <p className="text-gray-500 text-sm max-w-xs text-center md:text-left italic">
                Pureza y luminosidad ✨
              </p>
