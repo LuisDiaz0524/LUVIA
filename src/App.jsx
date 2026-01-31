@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Star, Clock, CheckCircle2, ShieldCheck, 
   Award, Briefcase, Zap, Search, 
   UserCheck, GraduationCap, Gavel, Heart,
-  Menu, X, Phone, Instagram, Facebook
+  Menu, X, Phone, Instagram, Facebook,
+  Quote // Importamos el icono de comillas
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // --- CONFIGURACIÓN DE COLORES Y ESTILOS ---
 const GOLD_GRADIENT = "bg-gradient-to-r from-[#D4AF37] via-[#FFD700] to-[#D4AF37]";
@@ -13,6 +14,7 @@ const GOLD_TEXT = "bg-clip-text text-transparent bg-gradient-to-r from-[#D4AF37]
 
 const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentTestimonial, setCurrentTestimonial] = useState(0); // Estado para el carrusel
 
   // Datos de Valores
   const values = [
@@ -30,13 +32,45 @@ const App = () => {
     { icon: <Award />, title: "Honestos", desc: "Transparencia total." },
   ];
 
-  // Datos de Antes/Después
+  // Datos de Antes/Después (Rutas relativas corregidas)
   const transformations = [
-    { area: "Dormitorio", before: "images/dormitorio-antes.jpeg", after: "/images/dormitorio-despues.jpeg" },
-    { area: "Sala", before: "/images/sala-antes.jpeg", after: "/images/sala-despues.jpeg" },
-    { area: "Baño", before: "/images/baño-antes.jpeg", after: "/images/baño-despues.jpeg" },
-    { area: "Cocina", before: "/images/cocina-antes.jpeg", after: "/images/cocina-despues.jpeg" },
+    { area: "Dormitorio", before: "images/dormitorio-antes.jpeg", after: "images/dormitorio-despues.jpeg" },
+    { area: "Sala", before: "images/sala-antes.jpeg", after: "images/sala-despues.jpeg" },
+    { area: "Baño", before: "images/baño-antes.jpeg", after: "images/baño-despues.jpeg" },
+    { area: "Cocina", before: "images/cocina-antes.jpeg", after: "images/cocina-despues.jpeg" },
   ];
+
+  // Datos de Testimonios (CARRUSEL)
+  const testimonials = [
+    {
+      text: "Finalmente un servicio en el que puedo confiar las llaves de mi casa. La atención al detalle de Luvia es simplemente incomparable.",
+      author: "Sofia Martínez",
+      role: "Cliente Residencial"
+    },
+    {
+      text: "Contraté el servicio para una limpieza profunda antes de mudarme y superaron mis expectativas. Dejaron el apartamento como nuevo.",
+      author: "Roberto Castillo",
+      role: "Propietario"
+    },
+    {
+      text: "La puntualidad y el profesionalismo del equipo son notables. No solo limpian, realmente organizan y transforman el ambiente.",
+      author: "Elena Rivas",
+      role: "Arquitecta"
+    },
+    {
+      text: "Llevo meses buscando un servicio así. Es un alivio llegar del trabajo y encontrar mi hogar impecable y con un aroma increíble.",
+      author: "Carlos Méndez",
+      role: "Ejecutivo"
+    }
+  ];
+
+  // Efecto para cambiar el testimonio automáticamente cada 5 segundos
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [testimonials.length]);
 
   return (
     <div className="bg-black text-white font-sans min-h-screen selection:bg-[#D4AF37] selection:text-black">
@@ -45,14 +79,11 @@ const App = () => {
       <nav className="fixed w-full z-50 bg-black/90 backdrop-blur-md border-b border-[#D4AF37]/20">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           
-          {/* LOGO PNG TRANSPARENTE */}
+          {/* LOGO PNG */}
           <div className="w-20 h-20 relative cursor-pointer group">
-            {/* Brillo dorado detrás del logo */}
             <div className="absolute inset-0 bg-[#D4AF37] blur-2xl opacity-10 group-hover:opacity-30 transition-opacity rounded-full"></div>
-            
-            {/* Imagen PNG sin efectos de mezcla raros, solo pura calidad */}
             <img 
-              src="/logo.png" 
+              src="images/logo.png" 
               alt="LUVIA Logo" 
               className="relative z-10 w-full h-full object-contain"
             />
@@ -94,7 +125,8 @@ const App = () => {
               <span className="block text-white">Perfección en</span>
               <span className={GOLD_TEXT}>cada detalle.</span>
             </h1>
-            <p className="text-gray-300 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto">
+            {/* TU FRASE PERSONALIZADA */}
+            <p className="text-gray-300 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto italic">
               Pureza y luminosidad ✨
             </p>
             <motion.button 
@@ -108,7 +140,7 @@ const App = () => {
         </div>
       </section>
 
-      {/* --- VALORES (GRID DE LUJO) --- */}
+      {/* --- VALORES --- */}
       <section id="valores" className="py-24 px-6 bg-zinc-950 relative border-t border-[#D4AF37]/10">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -137,7 +169,7 @@ const App = () => {
         </div>
       </section>
 
-      {/* --- TRANSFORMACIÓN (ANTES / DESPUÉS) --- */}
+      {/* --- TRANSFORMACIÓN --- */}
       <section id="transformacion" className="py-24 px-6 bg-black">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -148,13 +180,13 @@ const App = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {transformations.map((item, index) => (
               <div key={index} className="relative group rounded-2xl overflow-hidden border border-white/10 h-[400px]">
-                {/* Imagen del ANTES (Fondo base) */}
+                {/* Imagen del ANTES */}
                 <div className="absolute inset-0">
                   <img src={item.before} alt={`${item.area} Antes`} className="w-full h-full object-cover grayscale opacity-60" />
                   <div className="absolute top-4 left-4 bg-black/70 text-white text-xs px-3 py-1 rounded border border-white/20">ANTES</div>
                 </div>
 
-                {/* Imagen del DESPUÉS (Se revela con hover) */}
+                {/* Imagen del DESPUÉS */}
                 <div className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out">
                   <img src={item.after} alt={`${item.area} Después`} className="w-full h-full object-cover" />
                   <div className="absolute top-4 right-4 bg-[#D4AF37] text-black font-bold text-xs px-3 py-1 rounded shadow-lg">DESPUÉS</div>
@@ -170,19 +202,54 @@ const App = () => {
         </div>
       </section>
 
-      {/* --- TESTIMONIOS --- */}
-      <section className="py-20 px-6 bg-zinc-900 border-y border-[#D4AF37]/10">
-        <div className="max-w-4xl mx-auto text-center">
+      {/* --- TESTIMONIOS (CARRUSEL AUTOMÁTICO) --- */}
+      <section className="py-24 px-6 bg-zinc-900 border-y border-[#D4AF37]/10 relative overflow-hidden">
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          
+          <div className="flex justify-center mb-8">
+            <div className="p-4 rounded-full bg-white/5 border border-[#D4AF37]/20">
+              <Quote className="text-[#D4AF37]" size={32} />
+            </div>
+          </div>
+
           <div className="flex justify-center gap-1 mb-6 text-[#D4AF37]">
             {[1,2,3,4,5].map(i => <Star key={i} fill="#D4AF37" size={20} />)}
           </div>
-          <blockquote className="text-2xl md:text-3xl font-serif italic text-gray-200 mb-8 leading-relaxed">
-            "Finalmente un servicio en el que puedo confiar las llaves de mi casa. La atención al detalle de Luvia es simplemente incomparable."
-          </blockquote>
-          <cite className="not-italic">
-            <div className="font-bold text-[#D4AF37] uppercase tracking-wider">Sofia Martínez</div>
-            <div className="text-sm text-gray-500">Cliente Residencial</div>
-          </cite>
+          
+          {/* Área Animada del Texto */}
+          <div className="h-64 md:h-48 flex items-center justify-center">
+            <AnimatePresence mode='wait'>
+              <motion.div
+                key={currentTestimonial}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                className="absolute w-full px-4"
+              >
+                <blockquote className="text-xl md:text-3xl font-serif italic text-gray-200 mb-8 leading-relaxed">
+                  "{testimonials[currentTestimonial].text}"
+                </blockquote>
+                <cite className="not-italic">
+                  <div className="font-bold text-[#D4AF37] uppercase tracking-wider">{testimonials[currentTestimonial].author}</div>
+                  <div className="text-sm text-gray-500">{testimonials[currentTestimonial].role}</div>
+                </cite>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Puntitos de Navegación */}
+          <div className="flex justify-center gap-3 mt-8">
+            {testimonials.map((_, index) => (
+              <button 
+                key={index}
+                onClick={() => setCurrentTestimonial(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentTestimonial ? 'bg-[#D4AF37] w-8' : 'bg-gray-700 hover:bg-gray-500'
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -190,11 +257,11 @@ const App = () => {
       <footer className="bg-black py-16 px-6 border-t border-white/5">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col items-center md:items-start">
-             {/* Logo en Footer PNG */}
              <div className="w-24 mb-4 opacity-80 hover:opacity-100 transition-opacity">
-                <img src="/logo.png" alt="Luvia Logo" className="w-full h-full object-contain" />
+                <img src="images/logo.png" alt="Luvia Logo" className="w-full h-full object-contain" />
              </div>
-             <p className="text-gray-500 text-sm max-w-xs text-center md:text-left">
+             {/* TU FRASE PERSONALIZADA */}
+             <p className="text-gray-500 text-sm max-w-xs text-center md:text-left italic">
                Pureza y luminosidad ✨
              </p>
           </div>
