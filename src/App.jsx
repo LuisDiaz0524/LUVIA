@@ -4,13 +4,17 @@ import {
   Award, Briefcase, Zap, Search, 
   UserCheck, GraduationCap, Gavel, Heart,
   Menu, X, Phone, Instagram, Facebook,
-  Quote 
+  Quote, Calendar // <--- Agregamos el icono de Calendario
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // --- IMPORTACIÓN DEL LOGO ---
-// Asegúrate de que el archivo esté en: src/assets/logo.png
 import logoLuvia from './assets/logo.png'; 
+
+// --- CONFIGURACIÓN DE CONTACTO (¡EDITA ESTO!) ---
+// Pon tu número aquí sin espacios ni guiones. Ejemplo: "50377778888"
+const WHATSAPP_NUMBER = "50368443999"; 
+const WHATSAPP_MESSAGE = "Hola LUVIA, quisiera reservar un servicio de limpieza ✨";
 
 // --- COLORES ---
 const GOLD_GRADIENT = "bg-gradient-to-r from-[#D4AF37] via-[#FFD700] to-[#D4AF37]";
@@ -19,6 +23,19 @@ const GOLD_TEXT = "bg-clip-text text-transparent bg-gradient-to-r from-[#D4AF37]
 const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+
+  // Función para abrir WhatsApp
+  const openWhatsApp = () => {
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+    window.open(url, '_blank');
+  };
+
+  // Datos de Horarios
+  const schedules = [
+    { day: "Domingo - Jueves", time: "Atención 24 Horas" },
+    { day: "Viernes", time: "Hasta las 3:00 PM" },
+    { day: "Sábado", time: "Cerrado" }
+  ];
 
   // Datos de Valores
   const values = [
@@ -98,7 +115,13 @@ const App = () => {
             <a href="#inicio" className="hover:text-[#D4AF37] transition-colors">Inicio</a>
             <a href="#valores" className="hover:text-[#D4AF37] transition-colors">Valores</a>
             <a href="#transformacion" className="hover:text-[#D4AF37] transition-colors">Resultados</a>
-            <button className={`${GOLD_GRADIENT} text-black font-bold px-6 py-2 rounded-full hover:scale-105 transition-transform shadow-[0_4px_14px_rgba(212,175,55,0.4)]`}>
+            <a href="#horarios" className="hover:text-[#D4AF37] transition-colors">Horarios</a> {/* Link Nuevo */}
+            
+            {/* Botón Reservar con WhatsApp */}
+            <button 
+              onClick={openWhatsApp}
+              className={`${GOLD_GRADIENT} text-black font-bold px-6 py-2 rounded-full hover:scale-105 transition-transform shadow-[0_4px_14px_rgba(212,175,55,0.4)]`}
+            >
               Reservar
             </button>
           </div>
@@ -110,7 +133,7 @@ const App = () => {
         </div>
       </nav>
 
-      {/* --- HERO SECTION (CENTRO PERFECTO) --- */}
+      {/* --- HERO SECTION --- */}
       <section id="inicio" className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-zinc-900">
              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-800 via-black to-black opacity-90"></div>
@@ -130,7 +153,6 @@ const App = () => {
               <span className={GOLD_TEXT}>cada detalle.</span>
             </h1>
             
-            {/* Texto centrado sin restricciones de ancho innecesarias */}
             <p className="text-gray-300 text-lg md:text-xl font-light mb-10 italic">
               Pureza y luminosidad ✨
             </p>
@@ -138,6 +160,7 @@ const App = () => {
             <motion.button 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={openWhatsApp}
               className={`${GOLD_GRADIENT} text-black px-10 py-4 rounded-full text-lg font-bold tracking-wide shadow-[0_0_30px_rgba(212,175,55,0.5)]`}
             >
               RESERVAR SERVICIO
@@ -259,8 +282,42 @@ const App = () => {
         </div>
       </section>
 
+      {/* --- NUEVA SECCIÓN DE HORARIOS --- */}
+      <section id="horarios" className="py-20 px-6 bg-black relative">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="inline-flex items-center gap-2 mb-6 px-4 py-1 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/5">
+            <Calendar size={16} className="text-[#D4AF37]" />
+            <span className="text-[#D4AF37] text-xs font-bold tracking-widest uppercase">Disponibilidad</span>
+          </div>
+          
+          <h3 className="text-3xl md:text-4xl font-serif mb-12 text-white">Horarios de Atención</h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {schedules.map((item, index) => (
+              <motion.div 
+                key={index}
+                whileHover={{ scale: 1.05 }}
+                className="bg-zinc-900/50 border border-white/10 p-8 rounded-xl flex flex-col items-center justify-center hover:border-[#D4AF37]/50 transition-all group"
+              >
+                <div className="text-gray-400 text-sm uppercase tracking-wider mb-2 group-hover:text-[#D4AF37] transition-colors">{item.day}</div>
+                <div className="text-xl font-bold text-white font-serif">{item.time}</div>
+              </motion.div>
+            ))}
+          </div>
+          
+          <div className="mt-12">
+            <button 
+              onClick={openWhatsApp}
+              className="text-gray-400 hover:text-[#D4AF37] transition-colors text-sm underline underline-offset-4"
+            >
+              ¿Necesitas un horario especial? Contáctanos
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* --- FOOTER --- */}
-      <footer className="bg-black py-16 px-6 border-t border-white/5">
+      <footer className="bg-zinc-950 py-16 px-6 border-t border-white/5">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col items-center md:items-start">
              
@@ -281,9 +338,10 @@ const App = () => {
             <a href="#" className="p-3 rounded-full border border-white/10 hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all">
               <Facebook size={20} />
             </a>
-            <a href="#" className="p-3 rounded-full border border-white/10 hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all">
+            {/* El botón de teléfono del footer ahora también abre WhatsApp */}
+            <button onClick={openWhatsApp} className="p-3 rounded-full border border-white/10 hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all">
               <Phone size={20} />
-            </a>
+            </button>
           </div>
         </div>
         <div className="text-center mt-12 text-gray-700 text-xs">
