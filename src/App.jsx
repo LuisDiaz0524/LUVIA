@@ -4,19 +4,19 @@ import {
   Award, Briefcase, Zap, Search, 
   UserCheck, GraduationCap, Gavel, Heart,
   Menu, X, Phone, Instagram, Facebook,
-  Quote, Calendar // <--- Agregamos el icono de Calendario
+  Quote, Calendar, Moon, Sun, Ban // <--- Nuevos iconos importados
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // --- IMPORTACIÓN DEL LOGO ---
 import logoLuvia from './assets/logo.png'; 
 
-// --- CONFIGURACIÓN DE CONTACTO (¡EDITA ESTO!) ---
-// Pon tu número aquí sin espacios ni guiones. Ejemplo: "50377778888"
+// --- CONFIGURACIÓN DE CONTACTO ---
+// TU NÚMERO (Ya listo para usar)
 const WHATSAPP_NUMBER = "50368443999"; 
 const WHATSAPP_MESSAGE = "Hola LUVIA, quisiera reservar un servicio de limpieza ✨";
 
-// --- COLORES ---
+// --- COLORES Y ESTILOS ---
 const GOLD_GRADIENT = "bg-gradient-to-r from-[#D4AF37] via-[#FFD700] to-[#D4AF37]";
 const GOLD_TEXT = "bg-clip-text text-transparent bg-gradient-to-r from-[#D4AF37] via-[#FFD700] to-[#D4AF37]";
 
@@ -30,11 +30,26 @@ const App = () => {
     window.open(url, '_blank');
   };
 
-  // Datos de Horarios
+  // Datos de Horarios (DISEÑO PREMIUM)
   const schedules = [
-    { day: "Domingo - Jueves", time: "Atención 24 Horas" },
-    { day: "Viernes", time: "Hasta las 3:00 PM" },
-    { day: "Sábado", time: "Cerrado" }
+    { 
+      day: "Domingo a Jueves", 
+      time: "Atención 24 Horas", 
+      icon: <Moon />, // Icono de Luna para 24h
+      highlight: true // Para destacarlo más
+    },
+    { 
+      day: "Viernes", 
+      time: "Hasta las 3:00 PM", 
+      icon: <Sun />, // Icono de Sol
+      highlight: false
+    },
+    { 
+      day: "Sábado", 
+      time: "Cerrado", 
+      icon: <Ban />, // Icono de Cerrado
+      highlight: false
+    }
   ];
 
   // Datos de Valores
@@ -115,9 +130,8 @@ const App = () => {
             <a href="#inicio" className="hover:text-[#D4AF37] transition-colors">Inicio</a>
             <a href="#valores" className="hover:text-[#D4AF37] transition-colors">Valores</a>
             <a href="#transformacion" className="hover:text-[#D4AF37] transition-colors">Resultados</a>
-            <a href="#horarios" className="hover:text-[#D4AF37] transition-colors">Horarios</a> {/* Link Nuevo */}
+            <a href="#horarios" className="hover:text-[#D4AF37] transition-colors">Horarios</a>
             
-            {/* Botón Reservar con WhatsApp */}
             <button 
               onClick={openWhatsApp}
               className={`${GOLD_GRADIENT} text-black font-bold px-6 py-2 rounded-full hover:scale-105 transition-transform shadow-[0_4px_14px_rgba(212,175,55,0.4)]`}
@@ -282,35 +296,53 @@ const App = () => {
         </div>
       </section>
 
-      {/* --- NUEVA SECCIÓN DE HORARIOS --- */}
-      <section id="horarios" className="py-20 px-6 bg-black relative">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 mb-6 px-4 py-1 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/5">
+      {/* --- SECCIÓN DE HORARIOS (DISEÑO MEJORADO) --- */}
+      <section id="horarios" className="py-24 px-6 bg-black relative border-t border-[#D4AF37]/5">
+        <div className="max-w-5xl mx-auto text-center">
+          
+          <div className="inline-flex items-center gap-2 mb-8 px-4 py-1 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/5">
             <Calendar size={16} className="text-[#D4AF37]" />
-            <span className="text-[#D4AF37] text-xs font-bold tracking-widest uppercase">Disponibilidad</span>
+            <span className="text-[#D4AF37] text-xs font-bold tracking-widest uppercase">Disponibilidad Exclusiva</span>
           </div>
           
-          <h3 className="text-3xl md:text-4xl font-serif mb-12 text-white">Horarios de Atención</h3>
+          <h3 className="text-3xl md:text-5xl font-serif mb-16 text-white">Horarios de Atención</h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {schedules.map((item, index) => (
               <motion.div 
                 key={index}
-                whileHover={{ scale: 1.05 }}
-                className="bg-zinc-900/50 border border-white/10 p-8 rounded-xl flex flex-col items-center justify-center hover:border-[#D4AF37]/50 transition-all group"
+                whileHover={{ y: -10 }}
+                className={`relative group p-8 rounded-2xl border transition-all duration-500 flex flex-col items-center justify-center
+                  ${item.highlight 
+                    ? 'bg-zinc-900 border-[#D4AF37]/40 shadow-[0_0_30px_rgba(212,175,55,0.1)]' 
+                    : 'bg-zinc-900/50 border-white/5 hover:border-[#D4AF37]/30'
+                  }
+                `}
               >
-                <div className="text-gray-400 text-sm uppercase tracking-wider mb-2 group-hover:text-[#D4AF37] transition-colors">{item.day}</div>
-                <div className="text-xl font-bold text-white font-serif">{item.time}</div>
+                {/* Icono Flotante */}
+                <div className={`mb-6 p-4 rounded-full transition-all duration-500 
+                  ${item.highlight ? 'bg-[#D4AF37]/10 text-[#D4AF37]' : 'bg-white/5 text-gray-400 group-hover:text-[#D4AF37] group-hover:bg-[#D4AF37]/10'}`}>
+                   {React.cloneElement(item.icon, { size: 32 })}
+                </div>
+
+                <div className="text-gray-400 text-xs font-bold uppercase tracking-[0.2em] mb-3">
+                  {item.day}
+                </div>
+                
+                {/* Texto Dorado y Grande */}
+                <div className={`text-2xl md:text-3xl font-serif font-medium ${item.highlight ? GOLD_TEXT : 'text-white group-hover:text-[#D4AF37] transition-colors'}`}>
+                  {item.time}
+                </div>
               </motion.div>
             ))}
           </div>
           
-          <div className="mt-12">
+          <div className="mt-16">
             <button 
               onClick={openWhatsApp}
-              className="text-gray-400 hover:text-[#D4AF37] transition-colors text-sm underline underline-offset-4"
+              className="text-gray-500 hover:text-[#D4AF37] transition-colors text-sm underline underline-offset-4 flex items-center justify-center gap-2 mx-auto"
             >
-              ¿Necesitas un horario especial? Contáctanos
+              <Phone size={14}/> ¿Necesitas una cita fuera de horario?
             </button>
           </div>
         </div>
@@ -338,7 +370,6 @@ const App = () => {
             <a href="#" className="p-3 rounded-full border border-white/10 hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all">
               <Facebook size={20} />
             </a>
-            {/* El botón de teléfono del footer ahora también abre WhatsApp */}
             <button onClick={openWhatsApp} className="p-3 rounded-full border border-white/10 hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all">
               <Phone size={20} />
             </button>
